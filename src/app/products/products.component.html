@@ -1,0 +1,45 @@
+@if (products && brands) {
+    <div class="general d-flex w-100">
+        <div class="filter-side w-25">
+            <app-products-filter (filterInfo)="getFilter($event)" [brandsArr]="brands"
+                [paginationInfo]="paginationObj"></app-products-filter>
+        </div>
+        <div class="products-side w-75">
+            <app-products-cards [productsData]="products"></app-products-cards>
+        </div>
+    </div>
+    <div class="pagination-div d-flex justify-content-evenly align-items-center py-5">
+        <ul class="pagination">
+            <li class="page-item">
+                <button [disabled]="paginationObj.pageInd === 1" class="page-link" (click)="paginationSecondBtnFun(false)"
+                    aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </button>
+            </li>
+            @for (item of range; track $index) {
+            <li class="page-item"><button [disabled]="$index + 1 === paginationObj.pageInd"
+                    (click)="paginationFun($index + 1)" type="button" class="page-link">{{$index + 1}}</button>
+            </li>
+            }
+            <li class="page-item">
+                <button [disabled]="paginationObj.pageInd === productsLimit" (click)="paginationSecondBtnFun(true)"
+                    class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </button>
+            </li>
+        </ul>
+        <div class="d-flex gap-2">
+            <span>products size on page:</span>
+            <select (change)="paginationFun()" [(ngModel)]="paginationObj.pageSize" class="form-select w-25"
+                aria-label="Default select example">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+            </select>
+        </div>
+    </div>
+} @else { 
+    <div class="loader-div fixed-top">
+        <span class="loader"></span>
+    </div>
+}

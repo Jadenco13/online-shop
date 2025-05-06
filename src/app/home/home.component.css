@@ -1,0 +1,11 @@
+img {
+  height: 50vh;
+  width: 100%;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 1321px) {
+  .bg-div {
+    padding: 0;
+  }
+}

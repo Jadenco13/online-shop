@@ -1,0 +1,39 @@
+<nav
+  class="navbar navbar-expand-lg bg-body-tertiary d-flex justify-content-around fixed-top"
+>
+  <div class="container-fluid">
+    <div class="icon-div">
+        <img src="/nav-icon.jpg" routerLink="/" alt="">
+    </div>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" type="button" routerLink="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" type="button" routerLink="/products">Products</a>
+        </li>
+      </ul>
+    </div>
+    <div class="right-div d-flex gap-3 pe-3">
+      <button type="button" (click)="openSignUpForm()" class="btn btn-outline-primary">
+        <i class="fa-solid fa-registered"></i> Register
+      </button>
+      <button type="button" (click)="openSignInForm()" class="btn btn-outline-success">
+        <i class="fa-solid fa-user"></i> Sign in
+      </button>
+    </div>
+  </div>
+</nav>
+

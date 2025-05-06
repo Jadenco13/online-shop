@@ -1,0 +1,40 @@
+@if (productsData) {
+<h1 class="title w-100 text-center">Online Shop Products</h1>
+<div class="general-div d-flex flex-wrap gap-5 justify-content-center container-xxl pt-5">
+    @for (item of productsData.products; track $index) {
+    <div class="card overflow-hidden" style="width: 18rem">
+        <img [src]="item.images[0]" alt="..." />
+        @if (item.price.discountPercentage) {
+        <div class="percentage-div d-flex justify-content-center position-absolute">
+            {{ item.price.discountPercentage }} %
+        </div>
+        }
+        <div class="card-body d-flex flex-column justify-content-between">
+            <h5 class="card-title">{{ item.title }}</h5>
+            <p class="card-text">
+                {{ item.description.substring(50, 100) + " ..." }}
+            </p>
+            <div class="price-sector align-content-end d-flex justify-content-between">
+                <div class="left-side">
+                    <p class="text-success">Price: {{ item.price.current }} $</p>
+                    @if (item.price.beforeDiscount != item.price.current) {
+                    <small class="text-danger text-decoration-line-through">Previous: {{ item.price.beforeDiscount }}
+                        $</small>
+                    }
+                    <p class="p-0">Quantity: {{item.stock}}</p>
+                </div>
+                <div class="right-side d-flex flex-column justify-content-around gap-1">
+                    <button [disabled]="!item.stock" type="button" class="btn btn-success">add to cart</button>
+                    <button (click)="goToDetailsPage(item._id)" type="button" class="btn btn-primary">details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+}
+@else {
+<div class="position-fixed w-100 h-100 d-flex justify-content-center align-items-center">
+    <span class="loader"></span>
+</div>
+}

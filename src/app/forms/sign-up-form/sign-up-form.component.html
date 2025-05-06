@@ -1,0 +1,60 @@
+<div (click)="closeSignUpForm()" class="background w-100 position-relative">
+    <div (click)="$event.stopPropagation()" class="sign-up-form position-absolute w-100">
+        <form class="d-flex flex-column justify-content-center container-md align-items-center rounded py-3">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                <input type="text" class="form-control" placeholder="firstname" aria-label="firstname"
+                    aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-signature"></i></span>
+                <input type="text" class="form-control" placeholder="lastname" aria-label="lastname"
+                    aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon3"><i class="fa-solid fa-calendar"></i></span>
+                <input type="number" class="form-control" placeholder="age" aria-label="text"
+                    aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon4"><i class="fa-solid fa-envelope"></i></span>
+                <input type="email" class="form-control" placeholder="email" aria-label="text"
+                    aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon5"><i class="fa-solid fa-lock"></i></span>
+                <input type="password" class="form-control" placeholder="password" aria-label="password"
+                    aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon6"><i class="fa-solid fa-location-dot"></i></span>
+                <input type="text" class="form-control" placeholder="address" aria-label="text"
+                    aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon7"><i class="fa-solid fa-mobile-screen-button"></i></span>
+                <input type="number" class="form-control" placeholder="Phone number" aria-label="text"
+                    aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon8"><i class="fa-solid fa-map-location-dot"></i></span>
+                <input type="number" class="form-control" placeholder="ZIP code" aria-label="text"
+                    aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon9"><i class="fa-solid fa-image"></i></span>
+                <input type="text" class="form-control" placeholder="Avatar URL" aria-label="text"
+                    aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01"><i class="fa-solid fa-venus-mars"></i></label>
+                <select class="form-select" id="inputGroupSelect01">
+                    <option selected>Choose Gender...</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary w-50">Registration</button>
+        </form>
+    </div>
+</div>

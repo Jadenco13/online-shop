@@ -1,0 +1,121 @@
+.icon-circle {
+  border: 2px solid rgb(36, 127, 239);
+  color: rgb(36, 127, 239);
+  border-radius: 50%;
+  text-align: center;
+  align-content: center;
+  height: 100px;
+  width: 100px;
+  font-size: 30px;
+  overflow: hidden;
+  position: relative;
+  transition: 3s;
+}
+
+.truck:hover i {
+  position: absolute;
+  left: 0;
+  transform: translateX(-75px);
+  animation: moveTruck 2s ease-in forwards;
+}
+
+.map:hover {
+  animation-name: moveIcon;
+  animation-duration: 2s;
+}
+
+.map:hover i {
+  animation-name: showMap;
+  animation-duration: 2s;
+}
+
+.money i {
+  position: absolute;
+}
+
+.money:hover .left-money {
+  animation-name: moveLeftMoney;
+  animation-duration: 2s;
+}
+
+.money:hover .right-money {
+  animation-name: moveRightMoney;
+  animation-duration: 2s;
+}
+
+.icon-circle:hover {
+  background-color: rgb(36, 127, 239);
+  color: white;
+}
+
+@keyframes moveIcon {
+  0% {
+    transform: rotate(90deg);
+  }
+  10% {
+    transform: rotate(-80deg);
+  }
+  20% {
+    transform: rotate(70deg);
+  }
+  30% {
+    transform: rotate(-60deg);
+  }
+  40% {
+    transform: rotate(50deg);
+  }
+  50% {
+    transform: rotate(-40deg);
+  }
+  60% {
+    transform: rotate(30deg);
+  }
+  70% {
+    transform: rotate(-20deg);
+  }
+  80% {
+    transform: rotate(10deg);
+  }
+  90% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes moveTruck {
+  from {
+    transform: translateX(-40px);
+  }
+  to {
+    transform: translateX(150px);
+  }
+}
+
+@keyframes moveLeftMoney {
+  from {
+    transform: translate(-100px, 0);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes moveRightMoney {
+  from {
+    transform: translate(100px, 0);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes showMap {
+  from {
+    opacity: 20%;
+  }
+  to {
+    opacity: 100%;
+  }
+}

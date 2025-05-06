@@ -1,0 +1,17 @@
+<div (click)="closeSignInForm()" class="background w-100">
+    <div (click)="$event.stopPropagation()" class="sign-in-form position-absolute">
+        <form [formGroup]="signInForm" class="d-flex flex-column justify-content-center container-md align-items-center rounded py-3">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                <input type="text" formControlName="email" class="form-control" placeholder="Username" aria-label="Username"
+                    aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-lock"></i></span>
+                <input type="password" formControlName="password" class="form-control" placeholder="Password" aria-label="Password"
+                    aria-describedby="basic-addon1">
+            </div>
+            <button type="button" (click)="signIn()" class="btn btn-success w-50">Enter</button>
+        </form>
+    </div>
+</div>

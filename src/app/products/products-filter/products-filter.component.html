@@ -1,0 +1,74 @@
+<div class="general w-100">
+    <h1 class="text-center">BRANDS</h1>
+    @if (brandsArr && paginationInfo) {
+    <ul class="list-group">
+        @for (item of brandsArr; track $index) {
+        <li class="list-group-item w-100">
+            <button (click)="takeSelectedBrand(item)" type="button"
+                class="btn btn-outline-secondary w-100">{{item}}</button>
+        </li>
+        }
+    </ul>
+    <br>
+    <h2 class="text-center">FILTER</h2>
+    <div class="filter-form p-3">
+        <form [formGroup]="filter">
+            <div class="input-group mb-3 d-flex flex-column">
+                <label>Product Name</label>
+                <input type="text" formControlName="keywords" class="form-control w-100 rounded"
+                    placeholder="Write Here..." aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3 d-flex flex-column">
+                <label>Choose Category</label>
+                <select class="form-select w-100 rounded" formControlName="category_id"
+                    aria-label="Default select example">
+                    <option value="1">Laptops</option>
+                    <option value="2">Phones</option>
+                </select>
+            </div>
+            <div class="input-group mb-3 d-flex flex-column">
+                <label>Choose Brand</label>
+                <select formControlName="brand" class="form-select w-100 rounded" aria-label="Default select example">
+                    @for (item of brandsArr; track $index) {
+                    <option [value]="item">{{item}}</option>
+                    }
+                </select>
+            </div>
+            <div class="input-group mb-3 d-flex flex-column">
+                <label>Rating</label>
+                <input type="number" formControlName="rating" class="form-control w-100 rounded" max="5" min="0">
+            </div>
+            <div class="input-group mb-3 d-flex flex-column">
+                <label>Max & Min Price</label>
+                <div class="d-flex gap-1">
+                    <input type="number" placeholder="Min" formControlName="price_min"
+                        class="form-control w-100 rounded">
+                    <input type="number" placeholder="Max" formControlName="price_max"
+                        class="form-control w-100 rounded">
+                </div>
+            </div>
+            <div class="input-group mb-3 d-flex flex-column">
+                <label>Sorted By</label>
+                <select class="form-select w-100 rounded" formControlName="sort_by">
+                    <option value="rating">rating</option>
+                    <option value="price">price</option>
+                    <option value="issue_date">issue DATE</option>
+                    <option value="title">title</option>
+                </select>
+            </div>
+            <div class="input-group mb-3 d-flex flex-column">
+                <label>Sort Direction</label>
+                <select class="form-select w-100 rounded" formControlName="sort_direction">
+                    <option value="asc">ASC</option>
+                    <option value="desc">DESC</option>
+                </select>
+            </div>
+            <div class="w-100 d-flex justify-content-center align-items-center">
+                <button type="button" (click)="giveFilterToParent()" class="btn btn-info text-center w-100">Filtering <i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </form>
+    </div>
+    } @else {
+        
+    }
+</div>

@@ -1,0 +1,82 @@
+@if (product) {
+<div class="general-div container-xxl flex-column d-flex justify-content-evenly">
+  <div class="left-side">
+    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="true">
+      <div class="carousel-inner">
+        @for (item of product.images; track $index) {
+        <div class="carousel-item" [class.active]="$index === 1" data-bs-interval="3000">
+          <img [src]="item" class="d-block w-100" alt="image" />
+        </div>
+        }
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  <div class="right-side d-flex flex-column">
+    <h2 class="text-center text-info py-3 m-0">{{ product.title }}</h2>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <p class="m-0">Brand: {{ product.brand }}</p>
+      </li>
+      <li class="list-group-item d-flex justify-content-between gap-2 flex-wrap">
+        <p class="m-0 text-success">
+          Current Price: {{ product.price.current }}$
+        </p>
+        @if (product.price.current !== product.price.beforeDiscount) {
+        <p class="m-0 text-warning">
+          Discount Percentage: {{ product.price.discountPercentage }}%
+        </p>
+        <p class="m-0 text-danger">
+          Previous Price: {{ product.price.beforeDiscount }}$
+        </p>
+        }
+      </li>
+      <li class="list-group-item">
+        <p class="m-0">Warranty: {{ product.warranty }} Year</p>
+      </li>
+      <li class="list-group-item">
+        <p class="m-0">
+          Rating: {{ product.rating }}
+          @for (item of range; track $index) {
+          <span class="text-warning"> &#9733; </span>
+          }
+        </p>
+      </li>
+      <li class="list-group-item">
+        <p class="m-0">Quantity: {{ product.stock }}</p>
+      </li>
+    </ul>
+    <div class="inp-btn-div d-flex p-3 justify-content-between">
+      <div>
+        <input type="number" [(ngModel)]="productQuantity" (keyup)="productQuantity ? myFun() : null" min="1"
+          placeholder="Enter the number" />
+        <p class="text-success py-3">
+          {{productQuantity ? productQuantity * product.price.current : 0 }} $
+        </p>
+      </div>
+      <div>
+        <button [disabled]="!product.stock" type="button" class="btn btn-success">
+          Add To Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-xxl">
+  <h2 class="text-center py-3">Description</h2>
+  <h5 class="text-center">{{ product.description }}</h5>
+</div>
+} @else {
+<div class="spiner-div d-flex justify-content-center align-items-center">
+  <span class="loader"></span>
+</div>
+}
