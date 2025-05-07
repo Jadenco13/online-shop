@@ -22,7 +22,7 @@
           <p class="p-0">Quantity: {{item.stock}}</p>
         </div>
         <div class="right-side d-flex flex-column justify-content-around gap-1">
-          <button [disabled]="!item.stock" type="button" class="btn btn-success">add to cart</button>
+          <button (click)="sendParentProductId(item._id)" [disabled]="!item.stock" type="button" class="btn btn-success">add to cart</button>
           <button (click)="goToDetailsPage(item._id)" type="button" class="btn btn-primary">details</button>
         </div>
       </div>

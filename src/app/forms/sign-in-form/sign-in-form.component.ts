@@ -13,21 +13,30 @@ import { CartService } from '../../api-services/cart.service';
 })
 export class SignInFormComponent {
   public signInForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', Validators.required)
+    email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email]}),
+    password: new FormControl('', { nonNullable: true, validators: Validators.required })
   })
   constructor(private authService: AuthService, private cookie: CookieService, private cartService: CartService) { }
   closeSignInForm() {
     this.authService.userSignIn.next(false)
   }
   signIn() {
-    this.authService.signInFun(this.signInForm.value as SignInType).subscribe((data: any) => {
+    this.authService.signInFun(this.signInForm.value as SignInType).subscribe(data => {
       this.cookie.set('userToken', data.access_token)
-      this.authService.authFun().subscribe((userData: any) => console.log(userData))
-      this.showCartFun()
+      this.authService.authFun().subscribe(userData => {
+        this.authService.userIsOnline.next(true)
+        this.authService.userData = userData
+        if(userData.cartID) {
+          this.cartService.isUserHaveCart.next(true)
+        }
+        this.closeSignInForm()
+      })
     })
   }
   showCartFun() {
     this.cartService.getCart().subscribe((data: any) => console.log(data))
+  }
+  deleteCart() {
+    this.cartService.deleteCart().subscribe()
   }
 }
