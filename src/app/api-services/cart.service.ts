@@ -9,6 +9,8 @@ import { BehaviorSubject } from 'rxjs';
 export class CartService {
   public isUserHaveCart = new BehaviorSubject<boolean>(false)
   public cartLength = new BehaviorSubject<number>(0)
+  public rightCanvasCondition = new BehaviorSubject<boolean>(false)
+  public leftCanvasCondition = new BehaviorSubject<boolean>(false)
   constructor(private http: HttpClient) { }
   getCart() {
     return this.http.get<CartType>('https://api.everrest.educata.dev/shop/cart')

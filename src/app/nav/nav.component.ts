@@ -41,6 +41,12 @@ export class NavComponent {
     this.authSerice.userSignUp.next(true)
     console.log(this.basketLength)
   }
+  openRightCanvas() {
+    this.cartServce.rightCanvasCondition.next(true)
+  }
+  openLeftCanvas() {
+    this.cartServce.leftCanvasCondition.next(true)
+  }
   showCart() {
     this.cartServce.getCart().subscribe(cartInfo => {
       this.basketLength = cartInfo.total.quantity

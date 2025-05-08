@@ -1,0 +1,14 @@
+<div class="offcanvas offcanvas-end" [class.show]="canvasCondition" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Your Cart</h5>
+    <button (click)="closeCanvas()" type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    ...
+    <button (click)="seeCart()">show cart</button>
+  </div>
+</div>
+@if (canvasCondition) {
+    <div (click)="closeCanvas()" class="offcanvas-backdrop fade show"></div>
+}
+<!-- [attr.aria-modal]="canvasCondition ? 'true' : null" -->

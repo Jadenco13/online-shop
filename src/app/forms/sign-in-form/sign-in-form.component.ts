@@ -25,7 +25,6 @@ export class SignInFormComponent {
       this.cookie.set('userToken', data.access_token)
       this.authService.authFun().subscribe(userData => {
         this.authService.userIsOnline.next(true)
-        this.authService.userData = userData
         if(userData.cartID) {
           this.cartService.isUserHaveCart.next(true)
         }
