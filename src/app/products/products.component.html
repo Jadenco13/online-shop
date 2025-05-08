@@ -5,7 +5,7 @@
                 [paginationInfo]="paginationObj"></app-products-filter>
         </div>
         <div class="products-side w-75">
-            <app-products-cards [productsData]="products"></app-products-cards>
+            <app-products-cards (chosenProductId)="addProductInCart($event)" [productsData]="products"></app-products-cards>
         </div>
     </div>
     <div class="pagination-div d-flex justify-content-evenly align-items-center py-5">

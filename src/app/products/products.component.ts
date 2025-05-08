@@ -6,6 +6,7 @@ import { ProductsFilterComponent } from "./products-filter/products-filter.compo
 import { PaginationType } from '../types/pagination-type';
 import { FilterType } from '../types/filter-type';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../api-services/cart.service';
 
 @Component({
   selector: 'app-products',
@@ -18,18 +19,23 @@ export class ProductsComponent {
   public brands!: string[]
   public productsLimit!: number;
   public filterInfo!: FilterType;
+  public isUserHaveBasket!: boolean;
   public paginationObj: PaginationType = {
     pageInd: 1,
     pageSize: 10
   }
-  constructor(private productsService: ProductsService) {
+  constructor(private productsService: ProductsService, private cartService: CartService) {
     this.getProducts(this.paginationObj)
     this.getBrands()
+    this.getCartInfo()
   }
   ngOnInit() {
     if (this.products) {
       this.productsLimit = Math.ceil(this.products.total / this.products.limit)
     }
+  }
+  getCartInfo() {
+    this.cartService.isUserHaveCart.subscribe(data => this.isUserHaveBasket = data)
   }
   get range() {
     return Array(this.productsLimit).fill(0).map((_, i) => i);
@@ -73,5 +79,17 @@ export class ProductsComponent {
   getFilter(filterObj: FilterType) {
     this.filterInfo = filterObj
     this.getProductsByFilter(filterObj)
+  }
+  addProductInCart(productId: string) {
+    let productObj = {
+      id: productId,
+      quantity: 1
+    }
+    if (this.isUserHaveBasket) {
+      this.cartService.patchCart(productObj).subscribe(el => console.log(el))
+    } else {
+      this.cartService.postCart(productObj).subscribe(el => console.log(el))
+      this.cartService.isUserHaveCart.next(true)
+    }
   }
 }

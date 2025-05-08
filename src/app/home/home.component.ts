@@ -30,7 +30,7 @@ export class HomeComponent {
     })
   }
   getCartInfo() {
-    this.cartService.isUserHaveCart.subscribe(data => this.isUserHaveBasket = data)
+    this.cartService.isUserHaveCart.subscribe(data => {this.isUserHaveBasket = data, console.log(`user ${this.isUserHaveBasket ? "have" : "don't have"} cart`)})
   }
   addProductInCart(eventProductId: string) {
     let productObj = {
@@ -39,10 +39,11 @@ export class HomeComponent {
     }
     if (this.isUserHaveBasket) {
       this.cartService.patchCart(productObj).subscribe()
-      this.cartService.isUserHaveCart.next(true)
     } else {
       this.cartService.postCart(productObj).subscribe()
       this.cartService.isUserHaveCart.next(true)
+      // this.getCartInfo()
     }
+    console.log(this.isUserHaveBasket)
   }
 }

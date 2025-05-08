@@ -57,14 +57,14 @@
     </ul>
     <div class="inp-btn-div d-flex p-3 justify-content-between">
       <div>
-        <input type="number" [(ngModel)]="productQuantity" (keyup)="productQuantity ? myFun() : null" min="1"
+        <input type="number" [(ngModel)]="productQuantity" min="1"
           placeholder="Enter the number" />
         <p class="text-success py-3">
           {{productQuantity ? productQuantity * product.price.current : 0 }} $
         </p>
       </div>
       <div>
-        <button [disabled]="!product.stock" type="button" class="btn btn-success">
+        <button (click)="addProductInCart()" [disabled]="!product.stock" type="button" class="btn btn-success">
           Add To Cart
         </button>
       </div>

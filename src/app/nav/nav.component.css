@@ -8,6 +8,30 @@ img {
   height: 60px;
 }
 
+.cart-btn {
+  width: 50px;
+  height: 40px;
+  transition: 1s;
+}
+
+.cart-length {
+  transform: translateX(-30px);
+}
+
+.cart-icon {
+  transform: translateX(-5px);
+}
+
+.cart-btn:hover .cart-length {
+  transition: 1s;
+  transform: translateX(10px);
+}
+
+.cart-btn:hover .cart-icon {
+  transition: 1s;
+  transform: translateX(35px);
+}
+
 @media screen and (max-width: 992px) {
     .icon-div {
         display: none;

@@ -16,7 +16,7 @@ export interface CartProductType {
 export interface CartTotalType {
     price: CartTotalPriceType[]
     products: number,
-    qunatity: number
+    quantity: number
 }
 
 export interface CartTotalPriceType {

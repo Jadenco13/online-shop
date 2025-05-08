@@ -13,7 +13,7 @@ import { UserInfo } from '../types/auth-type';
 })
 export class NavComponent {
   public isUserOnline!: boolean;
-  public basketLength: number = 0;
+  public basketLength!: number;
   public userData!: UserInfo;
   constructor(private authSerice: AuthService, private cartServce: CartService, private cookie: CookieService) {
     this.isUserOnlineFun()
@@ -35,17 +35,21 @@ export class NavComponent {
   }
   openSignInForm() {
     this.authSerice.userSignIn.next(true)
+    console.log(this.basketLength)
   }
   openSignUpForm() {
     this.authSerice.userSignUp.next(true)
+    console.log(this.basketLength)
   }
   showCart() {
     this.cartServce.getCart().subscribe(cartInfo => {
-      this.basketLength = cartInfo.total.qunatity
+      this.basketLength = cartInfo.total.quantity
       this.cartServce.cartLength.next(this.basketLength)
+      this.cartServce.isUserHaveCart.next(true)
     })
   }
   deleteCart() {
     this.cartServce.deleteCart().subscribe()
+    this.cartServce.isUserHaveCart.next(false)
   }
 }
