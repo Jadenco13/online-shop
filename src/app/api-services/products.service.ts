@@ -29,5 +29,8 @@ export class ProductsService {
     });
     return this.http.get<FilterType>('https://api.everrest.educata.dev/shop/products/search', { params });
   }
+  favoriteProducts() {
+    return this.http.get<ProductType>('https://api.everrest.educata.dev/shop/products/search?page_index=1&page_size=10&sort_by=rating&sort_direction=desc')
+  }
 }
 

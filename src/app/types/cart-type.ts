@@ -10,11 +10,11 @@ export interface CartProductType {
     beforeDiscountPrice: number,
     pricePerQuantity: number,
     productId: string,
-    qunatity: number
+    quantity: number
 }
 
 export interface CartTotalType {
-    price: CartTotalPriceType[]
+    price: CartTotalPriceType
     products: number,
     quantity: number
 }
@@ -24,7 +24,20 @@ export interface CartTotalPriceType {
     current: number
 }
 
+// ---
+
 export interface AddProductInCartType {
     id: string,
     quantity: number
+}
+
+// ---
+
+export interface ChosenProductsInfo {
+    productId: string
+    quantity: number,
+    currentPrice: number,
+    beforeDiscount: number,
+    brand: string,
+    imgURL: string
 }

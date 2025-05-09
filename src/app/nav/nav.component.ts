@@ -23,29 +23,32 @@ export class NavComponent {
     if (isUserSignIn) {
       this.authSerice.userIsOnline.next(true)
       this.authSerice.userIsOnline.subscribe(data => { this.isUserOnline = data })
-      this.authSerice.authFun().subscribe(userinfo => {
-        this.userData = userinfo
-        if (this.userData.cartID) {
-          this.showCart()
-        } else {
-          
-        }
-      })
+      this.getUserInfo()
     }
   }
+  getUserInfo() {
+    this.authSerice.authFun().subscribe(userinfo => {
+      this.userData = userinfo
+      if (this.userData.cartID) {
+        this.showCart()
+      } else {
+        
+      }
+    })
+  }
+
+
   openSignInForm() {
     this.authSerice.userSignIn.next(true)
-    console.log(this.basketLength)
   }
   openSignUpForm() {
     this.authSerice.userSignUp.next(true)
-    console.log(this.basketLength)
   }
   openRightCanvas() {
     this.cartServce.rightCanvasCondition.next(true)
   }
   openLeftCanvas() {
-    this.cartServce.leftCanvasCondition.next(true)
+    this.authSerice.leftCanvasCondition.next(true)
   }
   showCart() {
     this.cartServce.getCart().subscribe(cartInfo => {

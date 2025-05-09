@@ -1,3 +1,9 @@
 .offcanvas {
     transition: 1s;
 }
+
+img {
+    width: 100px;
+    height: 100px;
+    object-fit: fill;
+}

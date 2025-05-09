@@ -6,6 +6,7 @@ import { ProductType } from '../types/product-type';
 import { PaginationType } from '../types/pagination-type';
 import { AuthService } from '../api-services/auth.service';
 import { CartService } from '../api-services/cart.service';
+import { FilterType } from '../types/filter-type';
 
 @Component({
   selector: 'app-home',
@@ -16,21 +17,17 @@ import { CartService } from '../api-services/cart.service';
 export class HomeComponent {
   public isUserHaveBasket!: boolean;
   public favoriteProducts!: ProductType;
-  public productsQuantity: PaginationType = {
-    pageInd: 1,
-    pageSize: 10
-  }
   constructor(private productService: ProductsService, private cartService: CartService) {
     this.getProducts()
     this.getCartInfo()
   }
   getProducts() {
-    this.productService.allProducts(this.productsQuantity).subscribe(data => {
+    this.productService.favoriteProducts().subscribe(data => {
       this.favoriteProducts = data
     })
   }
   getCartInfo() {
-    this.cartService.isUserHaveCart.subscribe(data => {this.isUserHaveBasket = data, console.log(`user ${this.isUserHaveBasket ? "have" : "don't have"} cart`)})
+    this.cartService.isUserHaveCart.subscribe(data => { this.isUserHaveBasket = data, console.log(`user ${this.isUserHaveBasket ? "have" : "don't have"} cart`) })
   }
   addProductInCart(eventProductId: string) {
     let productObj = {

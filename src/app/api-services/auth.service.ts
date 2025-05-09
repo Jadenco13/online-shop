@@ -11,7 +11,8 @@ export class AuthService {
   public userSignIn = new BehaviorSubject<boolean>(false)
   public userSignUp = new BehaviorSubject<boolean>(false)
   public userIsOnline = new BehaviorSubject<boolean>(false)
-  constructor(private http: HttpClient) { }
+  public leftCanvasCondition = new BehaviorSubject<boolean>(false)
+  constructor(private http: HttpClient) {}
   authFun() {
     return this.http.get<UserInfo>('https://api.everrest.educata.dev/auth')
   }

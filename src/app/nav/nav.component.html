@@ -18,7 +18,7 @@
       </ul>
     </div>
     <div class="right-div d-flex gap-3 pe-3">
-      @if (isUserOnline) {
+      @if (userData) {
       <div type="button" (click)="openRightCanvas()" class="cart-btn position-relative overflow-hidden d-flex justify-content-center align-items-center btn btn-outline-info p-0">
         <span class="cart-length text-white position-aboslute">{{basketLength}}</span>
         <i class="cart-icon position-aboslute fa-solid fa-cart-shopping"></i>

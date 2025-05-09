@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CartService } from '../../api-services/cart.service';
 import { UserInfo } from '../../types/auth-type';
 import { AuthService } from '../../api-services/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-left-canvas',
@@ -12,17 +13,24 @@ import { AuthService } from '../../api-services/auth.service';
 export class LeftCanvasComponent {
   public canvasCondition!: boolean;
   public userInfo!: UserInfo;
-  constructor(private cartService: CartService, private authService: AuthService) {
+  constructor(private cartService: CartService, private authService: AuthService, private cookie: CookieService) {
     this.seeCanvasCondition()
     this.getUserInfo()
   }
   seeCanvasCondition() {
-    this.cartService.leftCanvasCondition.subscribe(data => this.canvasCondition = data)
+    this.authService.leftCanvasCondition.subscribe(data => this.canvasCondition = data)
   }
   getUserInfo() {
-    this.authService.authFun().subscribe(data => {this.userInfo = data, console.log(this.userInfo)})
+    this.authService.authFun().subscribe(data => { this.userInfo = data })
+  }
+  showCart() {
+    this.cartService.rightCanvasCondition.next(true)
+    this.closeCanvas()
+  }
+  logOut() {
+    this.cookie.delete('userToken')
   }
   closeCanvas() {
-    this.cartService.leftCanvasCondition.next(false)
+    this.authService.leftCanvasCondition.next(false)
   }
 }
