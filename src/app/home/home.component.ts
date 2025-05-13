@@ -3,10 +3,8 @@ import { OurServiceComponent } from "./our-service/our-service.component";
 import { FavoriteProductsComponent } from "./favorite-products/favorite-products.component";
 import { ProductsService } from '../api-services/products.service';
 import { ProductType } from '../types/product-type';
-import { PaginationType } from '../types/pagination-type';
-import { AuthService } from '../api-services/auth.service';
 import { CartService } from '../api-services/cart.service';
-import { FilterType } from '../types/filter-type';
+import { AuthService } from '../api-services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -17,9 +15,13 @@ import { FilterType } from '../types/filter-type';
 export class HomeComponent {
   public isUserHaveBasket!: boolean;
   public favoriteProducts!: ProductType;
-  constructor(private productService: ProductsService, private cartService: CartService) {
+  public notification!: boolean;
+  public isUserOnline!: boolean;
+  constructor(private productService: ProductsService, private cartService: CartService, private authService: AuthService) {
     this.getProducts()
     this.getCartInfo()
+    authService.userNotification.subscribe(data => this.notification = data)
+    authService.userIsOnline.subscribe(data => this.isUserOnline = data)
   }
   getProducts() {
     this.productService.favoriteProducts().subscribe(data => {
@@ -30,17 +32,19 @@ export class HomeComponent {
     this.cartService.isUserHaveCart.subscribe(data => { this.isUserHaveBasket = data, console.log(`user ${this.isUserHaveBasket ? "have" : "don't have"} cart`) })
   }
   addProductInCart(eventProductId: string) {
-    let productObj = {
-      id: eventProductId,
-      quantity: 1
-    }
-    if (this.isUserHaveBasket) {
-      this.cartService.patchCart(productObj).subscribe()
+    if (this.isUserOnline) {
+      let productObj = {
+        id: eventProductId,
+        quantity: 1
+      }
+      if (this.isUserHaveBasket) {
+        this.cartService.patchCart(productObj).subscribe()
+      } else {
+        this.cartService.postCart(productObj).subscribe()
+        this.cartService.isUserHaveCart.next(true)
+      }
     } else {
-      this.cartService.postCart(productObj).subscribe()
-      this.cartService.isUserHaveCart.next(true)
-      // this.getCartInfo()
+      this.authService.userNotification.next(true)
     }
-    console.log(this.isUserHaveBasket)
   }
 }

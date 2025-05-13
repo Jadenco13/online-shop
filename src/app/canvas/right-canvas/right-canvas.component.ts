@@ -17,6 +17,7 @@ export class RightCanvasComponent {
   public cart!: CartType;
   public allProductData!: ProductType;
   public chosenProductsInfo: ChosenProductsInfo[] = [];
+  public isUserHaveBasket!: boolean;
   // ChosenProductsInfo[]
   public paginationTypeObj: PaginationType = {
     pageInd: 1,
@@ -24,19 +25,27 @@ export class RightCanvasComponent {
   }
   constructor(private cartService: CartService, private productService: ProductsService, private router: Router) {
     this.seeCanvasCondition()
-    this.seeCart()
+    this.isUserHaveBasketFun()
   }
   seeCanvasCondition() {
     this.cartService.rightCanvasCondition.subscribe(data => this.canvasCondition = data)
   }
-  closeCanvas() {
-    this.cartService.rightCanvasCondition.next(false)
+  isUserHaveBasketFun() {
+    this.cartService.isUserHaveCart.subscribe(data => {
+      this.isUserHaveBasket = data
+      this.seeCart()
+    })
   }
   seeCart() {
-    this.cartService.getCart().subscribe(data => {
-      this.cart = data
-      this.getAllProducts()
-    })
+    if (this.isUserHaveBasket) {
+      this.cartService.getCart().subscribe(data => {
+        this.cart = data
+        this.getAllProducts()
+      })
+    }
+  }
+  closeCanvas() {
+    this.cartService.rightCanvasCondition.next(false)
   }
   getAllProducts() {
     this.productService.allProducts(this.paginationTypeObj).subscribe(data => {
@@ -46,7 +55,7 @@ export class RightCanvasComponent {
   }
   getChosenProducts() {
     if (this.allProductData) {
-      this.cart.products.forEach(cartProduct => this.allProductData.products.forEach(allProductData => {
+      this.cart.products.forEach(cartProduct => this.allProductData.products.find(allProductData => {
         if (cartProduct.productId === allProductData._id) {
           this.chosenProductsInfo.push(
             {
@@ -63,7 +72,7 @@ export class RightCanvasComponent {
       console.log(this.chosenProductsInfo)
     }
   }
-  goToProductDetails(productId: string){
+  goToProductDetails(productId: string) {
     this.router.navigate(['/product-details'], { queryParams: { id: productId } })
     this.closeCanvas()
   }

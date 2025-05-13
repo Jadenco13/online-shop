@@ -7,5 +7,8 @@ export const userareaInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = req.clone({
     headers: req.headers.set('Authorization', `Bearer ${cookie.get('userToken')}`)
   })
+  if (cookie.get('userToken')) {
+    
+  }
   return next(auth);
 };

@@ -6,33 +6,35 @@
       aria-label="Close"></button>
   </div>
   <div class="offcanvas-body d-flex flex-column gap-1">
-    @if (chosenProductsInfo) {
-      @for (item of chosenProductsInfo; track $index) {
-      <div (click)="goToProductDetails(item.productId)" class="list-group">
-        <div class="d-flex justify-content-between list-group-item list-group-item-action">
-          <div class="d-flex flex-column">
-            <h5 class="mb-1">{{item.brand}}</h5>
-            <p class="text-success m-0">Price: {{item.currentPrice}}$ <small
-                class="text-danger text-decoration-line-through">{{item.beforeDiscount !== item.currentPrice ?
-                item.beforeDiscount + " $" : ""}}</small>
-            </p>
-            <span>Quantity: {{item.quantity}}</span>
-          </div>
-          <div class="">
-            <img [src]="item.imgURL" class="" alt="product.img">
-          </div>
+    @if (chosenProductsInfo && isUserHaveBasket) {
+    @for (item of chosenProductsInfo; track $index) {
+    <div (click)="goToProductDetails(item.productId)" class="list-group">
+      <div class="d-flex justify-content-between list-group-item list-group-item-action">
+        <div class="d-flex flex-column">
+          <h5 class="mb-1">{{item.brand}}</h5>
+          <p class="text-success m-0">Price: {{item.currentPrice}}$ <small
+              class="text-danger text-decoration-line-through">{{item.beforeDiscount !== item.currentPrice ?
+              item.beforeDiscount + " $" : ""}}</small>
+          </p>
+          <span>Quantity: {{item.quantity}}</span>
+        </div>
+        <div class="">
+          <img [src]="item.imgURL" class="" alt="product.img">
         </div>
       </div>
-      }
-      <div class="cart-info">
-        <p class="text-success">All product price: {{cart.total.price.current}}$</p>
-        <small class="text-danger">All product price before discount: {{cart.total.price.current}}$</small>
-      </div>
-      <br>
-      <div class="btns-div d-flex justify-content-around">
-        <button type="button" (click)="purchase()" class="btn btn-success">Purchase</button>
-        <button type="button" (click)="deleteCartFun()" class="btn btn-danger">Delete cart</button>
-      </div>
+    </div>
+    }
+    @if (cart) {
+    <div class="cart-info">
+      <p class="text-success">All product price: {{cart.total.price.current}}$</p>
+      <small class="text-danger">All product price before discount: {{cart.total.price.beforeDiscount}}$</small>
+    </div>
+    }
+    <br>
+    <div class="btns-div d-flex justify-content-around">
+      <button type="button" (click)="purchase()" class="btn btn-success">Purchase</button>
+      <button type="button" (click)="deleteCartFun()" class="btn btn-danger">Delete cart</button>
+    </div>
     }
   </div>
 </div>

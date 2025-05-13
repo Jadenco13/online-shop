@@ -7,6 +7,7 @@ import { PaginationType } from '../types/pagination-type';
 import { FilterType } from '../types/filter-type';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../api-services/cart.service';
+import { AuthService } from '../api-services/auth.service';
 
 @Component({
   selector: 'app-products',
@@ -20,14 +21,16 @@ export class ProductsComponent {
   public productsLimit!: number;
   public filterInfo!: FilterType;
   public isUserHaveBasket!: boolean;
+  public isUserOnline!: boolean;
   public paginationObj: PaginationType = {
     pageInd: 1,
     pageSize: 10
   }
-  constructor(private productsService: ProductsService, private cartService: CartService) {
+  constructor(private productsService: ProductsService, private cartService: CartService, private authService: AuthService) {
     this.getProducts(this.paginationObj)
     this.getBrands()
     this.getCartInfo()
+    authService.userIsOnline.subscribe(data => this.isUserOnline = data)
   }
   ngOnInit() {
     if (this.products) {
@@ -39,9 +42,6 @@ export class ProductsComponent {
   }
   get range() {
     return Array(this.productsLimit).fill(0).map((_, i) => i);
-  }
-  myFun() {
-    console.log(this.filterInfo.page_size)
   }
   paginationFun(pageInd?: number) {
     if (pageInd) {
@@ -81,15 +81,19 @@ export class ProductsComponent {
     this.getProductsByFilter(filterObj)
   }
   addProductInCart(productId: string) {
-    let productObj = {
-      id: productId,
-      quantity: 1
-    }
-    if (this.isUserHaveBasket) {
-      this.cartService.patchCart(productObj).subscribe(el => console.log(el))
+    if (this.isUserOnline) {
+      let productObj = {
+        id: productId,
+        quantity: 1
+      }
+      if (this.isUserHaveBasket) {
+        this.cartService.patchCart(productObj).subscribe(el => console.log(el))
+      } else {
+        this.cartService.postCart(productObj).subscribe(el => console.log(el))
+        this.cartService.isUserHaveCart.next(true)
+      }
     } else {
-      this.cartService.postCart(productObj).subscribe(el => console.log(el))
-      this.cartService.isUserHaveCart.next(true)
+      this.authService.userNotification.next(true)
     }
   }
 }

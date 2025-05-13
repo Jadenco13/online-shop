@@ -1,3 +1,4 @@
+@if (userInfo) {
 <div [class.show]="canvasCondition" class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1"
     id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
     <div class="offcanvas-header">
@@ -6,7 +7,6 @@
             aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        @if (userInfo) {
         <div class="d-flex justify-content-center align-items-center w-100">
             <div class="avatar-div overflow-hidden rounded-circle">
                 <img class="w-100 h-100"
@@ -31,9 +31,9 @@
             <button (click)="logOut()" type="button" class="btn btn-warning">Log Out</button>
             <button type="button" class="btn btn-danger">Delete Account</button>
         </div>
-        }
     </div>
 </div>
+}
 @if (canvasCondition) {
 <div (click)="closeCanvas()" class="offcanvas-backdrop fade show"></div>
 }

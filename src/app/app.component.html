@@ -3,15 +3,6 @@
 <app-left-canvas></app-left-canvas>
 <app-right-canvas></app-right-canvas>
 <app-footer></app-footer>
-<!-- <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-body">
-        Hello, world! This is a toast message.
-        <div class="mt-2 pt-2 border-top">
-            <button type="button" class="btn btn-primary btn-sm">Take action</button>
-            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Close</button>
-        </div>
-    </div>
-</div> -->
 @if (isSignInOpen) {
 <div class="all-screen fixed-top">
     <app-sign-in-form></app-sign-in-form>
@@ -20,5 +11,10 @@
 @if (isSignUpOpen) {
 <div class="all-screen fixed-top">
     <app-sign-up-form></app-sign-up-form>
+</div>
+}
+@if (isToastNotificationOpen) {
+<div class="all-screen fixed-top">
+    <app-notification></app-notification>
 </div>
 }

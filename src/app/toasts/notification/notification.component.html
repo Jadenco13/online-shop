@@ -1,0 +1,14 @@
+<div (click)="cancelNotification()"
+    class="general-div fixed-top w-100 d-flex justify-content-center align-items-center">
+    <div class="toast" (click)="$event.stopPropagation()" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-dark text-white">
+            <p class="m-0 text-center text-danger">You do not have a cart because you are not logged in. Please log in
+                or register.</p>
+        </div>
+        <div class="toast-body d-flex justify-content-around bg-dark rounded-bottom">
+            <button (click)="openSignInForm()" type="button" class="btn btn-success">Log in</button>
+            <button (click)="openSignUpForm()" type="button" class="btn btn-primary">Registration</button>
+            <button (click)="cancelNotification()" type="button" class="btn btn-secondary">Close</button>
+        </div>
+    </div>
+</div>

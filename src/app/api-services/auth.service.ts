@@ -11,6 +11,7 @@ export class AuthService {
   public userSignIn = new BehaviorSubject<boolean>(false)
   public userSignUp = new BehaviorSubject<boolean>(false)
   public userIsOnline = new BehaviorSubject<boolean>(false)
+  public userNotification = new BehaviorSubject<boolean>(false)
   public leftCanvasCondition = new BehaviorSubject<boolean>(false)
   constructor(private http: HttpClient) {}
   authFun() {

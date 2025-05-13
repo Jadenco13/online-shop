@@ -13,7 +13,7 @@ import { CartService } from '../../api-services/cart.service';
 })
 export class SignInFormComponent {
   public signInForm = new FormGroup({
-    email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email]}),
+    email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
     password: new FormControl('', { nonNullable: true, validators: Validators.required })
   })
   constructor(private authService: AuthService, private cookie: CookieService, private cartService: CartService) { }
@@ -25,17 +25,11 @@ export class SignInFormComponent {
       this.cookie.set('userToken', data.access_token)
       this.authService.authFun().subscribe(userData => {
         this.authService.userIsOnline.next(true)
-        if(userData.cartID) {
+        if (userData.cartID) {
           this.cartService.isUserHaveCart.next(true)
         }
         this.closeSignInForm()
       })
     })
-  }
-  showCartFun() {
-    this.cartService.getCart().subscribe((data: any) => console.log(data))
-  }
-  deleteCart() {
-    this.cartService.deleteCart().subscribe()
   }
 }

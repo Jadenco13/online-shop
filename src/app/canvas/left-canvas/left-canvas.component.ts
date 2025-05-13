@@ -21,7 +21,7 @@ export class LeftCanvasComponent {
     this.authService.leftCanvasCondition.subscribe(data => this.canvasCondition = data)
   }
   getUserInfo() {
-    this.authService.authFun().subscribe(data => { this.userInfo = data })
+    this.authService.authFun().subscribe(data => {this.userInfo = data})
   }
   showCart() {
     this.cartService.rightCanvasCondition.next(true)
