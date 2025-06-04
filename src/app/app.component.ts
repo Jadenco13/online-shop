@@ -21,6 +21,7 @@ export class AppComponent {
   public isSignUpOpen!: boolean;
   public isToastNotificationOpen!: boolean;
   constructor(private authService: AuthService) {
+    alert("EMAIL: giga.begi13@gmail.com, PASSWORD: ((parizi))")
     this.isSignInOpenFun()
     this.isSignUpOpenFun()
     authService.userNotification.subscribe(data => this.isToastNotificationOpen = data)
