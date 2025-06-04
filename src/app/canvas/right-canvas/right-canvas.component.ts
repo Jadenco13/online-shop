@@ -5,6 +5,9 @@ import { ProductsService } from '../../api-services/products.service';
 import { PaginationType } from '../../types/pagination-type';
 import { ProductType } from '../../types/product-type';
 import { Router } from '@angular/router';
+import { UserInfo } from '../../types/auth-type';
+import { AuthService } from '../../api-services/auth.service';
+import { filter, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-right-canvas',
@@ -14,38 +17,42 @@ import { Router } from '@angular/router';
 })
 export class RightCanvasComponent {
   public canvasCondition!: boolean;
-  public cart!: CartType;
+  public cart!: CartType | null;
   public allProductData!: ProductType;
   public chosenProductsInfo: ChosenProductsInfo[] = [];
-  public isUserHaveBasket!: boolean;
-  // ChosenProductsInfo[]
+  public userData!: UserInfo | null;
+  public chosenProductQuantity!: number;
   public paginationTypeObj: PaginationType = {
     pageInd: 1,
     pageSize: 38,
   }
-  constructor(private cartService: CartService, private productService: ProductsService, private router: Router) {
-    this.seeCanvasCondition()
-    this.isUserHaveBasketFun()
-  }
-  seeCanvasCondition() {
-    this.cartService.rightCanvasCondition.subscribe(data => this.canvasCondition = data)
-  }
-  isUserHaveBasketFun() {
-    this.cartService.isUserHaveCart.subscribe(data => {
-      this.isUserHaveBasket = data
-      this.seeCart()
+  constructor(private cartService: CartService, private productService: ProductsService, private router: Router, private authService: AuthService) {
+    authService._user$.
+      pipe(
+        filter((userInfo) => !!userInfo),
+        tap((userInfo) => {
+          this.userData = userInfo
+        }),
+        switchMap(() => {
+          return cartService._cart$.pipe(
+            filter((cart) => !!cart),
+            tap((cart) => {
+              this.cart = cart
+              if (this.userData?.cartID) {
+                this.getAllProducts()
+              }
+            })
+          )
+        })
+      ).subscribe()
+
+    this.authService.rightCanvasCondition.subscribe(data => {
+      this.canvasCondition = data
     })
   }
-  seeCart() {
-    if (this.isUserHaveBasket) {
-      this.cartService.getCart().subscribe(data => {
-        this.cart = data
-        this.getAllProducts()
-      })
-    }
-  }
+
   closeCanvas() {
-    this.cartService.rightCanvasCondition.next(false)
+    this.authService.rightCanvasCondition.next(false)
   }
   getAllProducts() {
     this.productService.allProducts(this.paginationTypeObj).subscribe(data => {
@@ -54,8 +61,10 @@ export class RightCanvasComponent {
     })
   }
   getChosenProducts() {
-    if (this.allProductData) {
-      this.cart.products.forEach(cartProduct => this.allProductData.products.find(allProductData => {
+    this.chosenProductsInfo = []
+    if (this.cart) {
+      console.log('enter')
+      this.cart?.products.forEach(cartProduct => this.allProductData.products.find(allProductData => {
         if (cartProduct.productId === allProductData._id) {
           this.chosenProductsInfo.push(
             {
@@ -69,18 +78,24 @@ export class RightCanvasComponent {
           )
         }
       }))
-      console.log(this.chosenProductsInfo)
     }
   }
   goToProductDetails(productId: string) {
     this.router.navigate(['/product-details'], { queryParams: { id: productId } })
     this.closeCanvas()
   }
+  growProduct(productId: string) {
+    // this.chosenProductsInfo.find()
+  }
+  
   purchase() {
     // this.cartService.checkOutCart().subscribe()
   }
+  deleteProdFromCart(productId: string) {
+    // console.log(productId)
+    this.cartService.deleteProductFromCart(productId).subscribe()
+  }
   deleteCartFun() {
     this.cartService.deleteCart().subscribe()
-    this.cartService.isUserHaveCart.next(false)
   }
 }

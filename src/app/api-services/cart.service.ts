@@ -1,27 +1,42 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AddProductInCartType, CartType } from '../types/cart-type';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, filter, Subject, switchMap, tap } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  public cartLength = new BehaviorSubject<number>(0)
-  public rightCanvasCondition = new BehaviorSubject<boolean>(false)
-  public isUserHaveCart = new Subject<boolean>()
-  constructor(private http: HttpClient) { }
+  private cart = new BehaviorSubject<CartType | null>(null)
+  public _cart$ = this.cart.asObservable()
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.authService._user$.pipe(
+      filter((user) => user !== null),
+      switchMap(() => this.getCart())
+    ).subscribe()
+  }
   getCart() {
-    return this.http.get<CartType>('https://api.everrest.educata.dev/shop/cart')
+    return this.http.get<CartType>('https://api.everrest.educata.dev/shop/cart').pipe(
+      tap((cartData) => this.cart.next(cartData))
+    )
+  }
+  postCart(productObj: AddProductInCartType) {
+    return this.http.post<CartType>('https://api.everrest.educata.dev/shop/cart/product', productObj).pipe(
+      tap((cart) => this.cart.next(cart))
+    )
+  }
+  patchCart(productObj: AddProductInCartType) {
+    return this.http.patch<CartType>('https://api.everrest.educata.dev/shop/cart/product', productObj).pipe(
+      tap((cart) => this.cart.next(cart))
+    )
+  }
+  deleteProductFromCart(productId: any) {
+    console.log(productId)
+    return this.http.delete('https://api.everrest.educata.dev/shop/cart/product', productId)
   }
   deleteCart() {
     return this.http.delete('https://api.everrest.educata.dev/shop/cart')
-  }
-  postCart(productObj: AddProductInCartType) {
-    return this.http.post('https://api.everrest.educata.dev/shop/cart/product', productObj)
-  }
-  patchCart(productObj: AddProductInCartType) {
-    return this.http.patch('https://api.everrest.educata.dev/shop/cart/product', productObj)
   }
   checkOutCart(body: string) {
     return this.http.post('https://api.everrest.educata.dev/shop/cart/checkout', body)

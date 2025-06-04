@@ -2,6 +2,14 @@
     transition: 1s;
 }
 
+.card-down-section button {
+    font-size: small;
+} 
+
+input {
+    outline: none;
+}
+
 img {
     width: 100px;
     height: 100px;

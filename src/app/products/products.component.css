@@ -3,6 +3,8 @@
   /* max-width: 1800px; */
 }
 
+/* loader */
+
 .loader-div {
   background-color: grey;
   margin-top: 75px;
@@ -66,5 +68,22 @@
 @keyframes paging {
   to {
     transform: rotateY(-180deg);
+  }
+}
+
+/* response */
+
+@media screen and (max-width: 767px) {
+  .general {
+    flex-direction: column !important;
+  }
+  .filter-side {
+    width: 100% !important;
+  }
+  .products-side {
+    width: 100% !important;
+  }
+  .pagination-div {
+    flex-direction: column;
   }
 }

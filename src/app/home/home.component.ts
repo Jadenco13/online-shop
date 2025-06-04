@@ -5,6 +5,7 @@ import { ProductsService } from '../api-services/products.service';
 import { ProductType } from '../types/product-type';
 import { CartService } from '../api-services/cart.service';
 import { AuthService } from '../api-services/auth.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -19,17 +20,18 @@ export class HomeComponent {
   public isUserOnline!: boolean;
   constructor(private productService: ProductsService, private cartService: CartService, private authService: AuthService) {
     this.getProducts()
-    this.getCartInfo()
     authService.userNotification.subscribe(data => this.notification = data)
-    authService.userIsOnline.subscribe(data => this.isUserOnline = data)
+    authService._isUserOnline$.subscribe(data => this.isUserOnline = data)
+    authService._user$.pipe(
+      tap((user) => {
+        this.isUserHaveBasket = !!user?.cartID
+      })
+    ).subscribe()
   }
   getProducts() {
     this.productService.favoriteProducts().subscribe(data => {
       this.favoriteProducts = data
     })
-  }
-  getCartInfo() {
-    this.cartService.isUserHaveCart.subscribe(data => { this.isUserHaveBasket = data, console.log(`user ${this.isUserHaveBasket ? "have" : "don't have"} cart`) })
   }
   addProductInCart(eventProductId: string) {
     if (this.isUserOnline) {
@@ -41,7 +43,6 @@ export class HomeComponent {
         this.cartService.patchCart(productObj).subscribe()
       } else {
         this.cartService.postCart(productObj).subscribe()
-        this.cartService.isUserHaveCart.next(true)
       }
     } else {
       this.authService.userNotification.next(true)

@@ -1,5 +1,5 @@
 @if (products && brands) {
-    <div class="general d-flex w-100">
+    <div class="general d-flex container-xxl w-100">
         <div class="filter-side w-25">
             <app-products-filter (filterInfo)="getFilter($event)" [brandsArr]="brands"
                 [paginationInfo]="paginationObj"></app-products-filter>

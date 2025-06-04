@@ -1,10 +1,19 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary d-flex justify-content-around fixed-top">
+<nav
+  class="navbar navbar-expand-lg bg-body-tertiary d-flex justify-content-around fixed-top"
+>
   <div class="container-fluid">
     <div class="icon-div">
-      <img src="/nav-icon.jpg" routerLink="/" alt="">
+      <img src="/nav-icon.jpg" routerLink="/" alt="" />
     </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -18,22 +27,39 @@
       </ul>
     </div>
     <div class="right-div d-flex gap-3 pe-3">
-      @if (userData) {
-      <div type="button" (click)="openRightCanvas()" class="cart-btn position-relative overflow-hidden d-flex justify-content-center align-items-center btn btn-outline-info p-0">
-        <span class="cart-length text-white position-aboslute">{{basketLength}}</span>
+      @if ((isUserOnline$ | async) && (userData$ | async); as user) {
+      <div
+        type="button"
+        (click)="openRightCanvas()"
+        class="cart-btn position-relative overflow-hidden d-flex justify-content-center align-items-center btn btn-outline-info p-0"
+      >
+        @if(cartSize$ | async; as size){
+        <span class="cart-length text-white position-aboslute">{{ size }}</span>
+        }
         <i class="cart-icon position-aboslute fa-solid fa-cart-shopping"></i>
       </div>
       <div>
-        <div type="button" (click)="openLeftCanvas()" class="overflow-hidden user-avatar bg-secondary h-100 d-flex justify-content-center align-items-center rounded gap-1">
-          <img [src]="userData.avatar" alt="avatar.img">
+        <div
+          type="button"
+          (click)="openLeftCanvas()"
+          class="overflow-hidden user-avatar h-100 d-flex justify-content-center align-items-center rounded gap-1"
+        >
+          <img [src]="user.avatar" alt="avatar.img" />
         </div>
       </div>
-      }
-      @else {
-      <button type="button" (click)="openSignUpForm()" class="btn btn-outline-primary">
+      } @else {
+      <button
+        type="button"
+        (click)="openSignUpForm()"
+        class="btn btn-outline-primary"
+      >
         <i class="fa-solid fa-registered"></i> Register
       </button>
-      <button type="button" (click)="openSignInForm()" class="btn btn-outline-success">
+      <button
+        type="button"
+        (click)="openSignInForm()"
+        class="btn btn-outline-success"
+      >
         <i class="fa-solid fa-user"></i> Sign in
       </button>
       }

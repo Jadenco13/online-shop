@@ -1,5 +1,8 @@
 <div class="bg-div container-xxl">
-    <img src="/bg-img.png" alt="image">
+  <img src="/bg-img.png" alt="image" />
 </div>
 <app-our-service></app-our-service>
-<app-favorite-products (chosenProductId)="addProductInCart($event)" [productsData]="favoriteProducts"></app-favorite-products>
+<app-favorite-products
+  (chosenProductId)="addProductInCart($event)"
+  [productsData]="favoriteProducts"
+></app-favorite-products>

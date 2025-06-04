@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ProductsCardsComponent } from "./products-cards/products-cards.component";
 import { ProductsService } from '../api-services/products.service';
 import { ProductType } from '../types/product-type';
@@ -8,6 +8,7 @@ import { FilterType } from '../types/filter-type';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../api-services/cart.service';
 import { AuthService } from '../api-services/auth.service';
+import { filter, map, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-products',
@@ -16,29 +17,29 @@ import { AuthService } from '../api-services/auth.service';
   styleUrl: './products.component.css'
 })
 export class ProductsComponent {
+  private cartService = inject(CartService);
+  private authService = inject(AuthService)
   public products!: ProductType;
   public brands!: string[]
   public productsLimit!: number;
   public filterInfo!: FilterType;
-  public isUserHaveBasket!: boolean;
-  public isUserOnline!: boolean;
+  public userHaveBasket$ = this.authService._user$.pipe(
+    filter(user => !!user),
+    map((user) => !!user.cartID)
+  );
+  public isUserOnline$ = this.authService._isUserOnline$;
   public paginationObj: PaginationType = {
     pageInd: 1,
     pageSize: 10
   }
-  constructor(private productsService: ProductsService, private cartService: CartService, private authService: AuthService) {
+  constructor(private productsService: ProductsService) {
     this.getProducts(this.paginationObj)
     this.getBrands()
-    this.getCartInfo()
-    authService.userIsOnline.subscribe(data => this.isUserOnline = data)
   }
   ngOnInit() {
     if (this.products) {
       this.productsLimit = Math.ceil(this.products.total / this.products.limit)
     }
-  }
-  getCartInfo() {
-    this.cartService.isUserHaveCart.subscribe(data => this.isUserHaveBasket = data)
   }
   get range() {
     return Array(this.productsLimit).fill(0).map((_, i) => i);
@@ -81,19 +82,23 @@ export class ProductsComponent {
     this.getProductsByFilter(filterObj)
   }
   addProductInCart(productId: string) {
-    if (this.isUserOnline) {
-      let productObj = {
-        id: productId,
-        quantity: 1
-      }
-      if (this.isUserHaveBasket) {
-        this.cartService.patchCart(productObj).subscribe(el => console.log(el))
-      } else {
-        this.cartService.postCart(productObj).subscribe(el => console.log(el))
-        this.cartService.isUserHaveCart.next(true)
-      }
-    } else {
-      this.authService.userNotification.next(true)
-    }
+    this.isUserOnline$.pipe(
+      filter(isOnline => !!isOnline),
+      switchMap(() => this.userHaveBasket$),
+      switchMap(userHasBasket => {
+        console.log(userHasBasket); // ახლა იმუშავებს
+        const productObj = {
+          id: productId,
+          quantity: 1
+        };
+        if (userHasBasket) {
+          return this.cartService.patchCart(productObj);
+        } else {
+          return this.cartService.postCart(productObj);
+        }
+      })
+    ).subscribe();
   }
+
 }
+
