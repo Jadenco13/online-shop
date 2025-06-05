@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AddProductInCartType, CartType } from '../types/cart-type';
-import { BehaviorSubject, filter, Subject, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, filter, switchMap, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -41,7 +41,9 @@ export class CartService {
     )
   }
   deleteCart() {
-    return this.http.delete('https://api.everrest.educata.dev/shop/cart')
+    return this.http.delete('https://api.everrest.educata.dev/shop/cart').pipe(
+      tap(() => this.cart.next(null))
+    )
   }
   checkOutCart(body: string) {
     return this.http.post('https://api.everrest.educata.dev/shop/cart/checkout', body)

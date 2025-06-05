@@ -84,12 +84,9 @@ export class RightCanvasComponent {
     this.router.navigate(['/product-details'], { queryParams: { id: productId } })
     this.closeCanvas()
   }
-  growProduct(productId: string) {
-    // this.chosenProductsInfo.find()
-  }
-  
+
   purchase() {
-    // this.cartService.checkOutCart().subscribe()
+    this.cartService.checkOutCart('').subscribe()
   }
   deleteProdFromCart(productId: string) {
     this.cartService.deleteProductFromCart(productId).subscribe()
