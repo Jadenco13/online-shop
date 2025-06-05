@@ -31,9 +31,14 @@ export class CartService {
       tap((cart) => this.cart.next(cart))
     )
   }
-  deleteProductFromCart(productId: any) {
-    console.log(productId)
-    return this.http.delete('https://api.everrest.educata.dev/shop/cart/product', productId)
+  deleteProductFromCart(productId: string) {
+    return this.http.delete<CartType>('https://api.everrest.educata.dev/shop/cart/product', {
+      body: {
+        id: productId
+      }
+    }).pipe(
+      tap((cartData) => this.cart.next(cartData))
+    )
   }
   deleteCart() {
     return this.http.delete('https://api.everrest.educata.dev/shop/cart')

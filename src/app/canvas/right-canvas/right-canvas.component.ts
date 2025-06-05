@@ -92,7 +92,6 @@ export class RightCanvasComponent {
     // this.cartService.checkOutCart().subscribe()
   }
   deleteProdFromCart(productId: string) {
-    // console.log(productId)
     this.cartService.deleteProductFromCart(productId).subscribe()
   }
   deleteCartFun() {

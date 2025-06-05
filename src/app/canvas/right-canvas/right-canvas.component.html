@@ -1,44 +1,29 @@
-<div
-  class="offcanvas offcanvas-end"
-  [class.show]="canvasCondition"
-  tabindex="-1"
-  id="offcanvasRight"
-  aria-labelledby="offcanvasRightLabel"
->
+<div class="offcanvas offcanvas-end" [class.show]="canvasCondition" tabindex="-1" id="offcanvasRight"
+  aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="offcanvasRightLabel">Your Cart</h5>
-    <button
-      (click)="closeCanvas()"
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="offcanvas"
-      aria-label="Close"
-    ></button>
+    <button (click)="closeCanvas()" type="button" class="btn-close" data-bs-dismiss="offcanvas"
+      aria-label="Close"></button>
   </div>
   <div class="offcanvas-body d-flex flex-column gap-1">
     @if (chosenProductsInfo) { @for (item of chosenProductsInfo; track $index) {
     <div (click)="goToProductDetails(item.productId)" class="list-group">
-      <div
-        class="d-flex justify-content-between list-group-item list-group-item-action"
-      >
+      <div class="d-flex justify-content-between list-group-item list-group-item-action">
         <div class="d-flex flex-column">
           <h5 class="mb-1">{{ item.brand }}</h5>
           <p class="text-success m-0">
             Price: {{ item.currentPrice }}$
             <small class="text-danger text-decoration-line-through">{{
               item.beforeDiscount !== item.currentPrice
-                ? item.beforeDiscount + " $"
-                : ""
-            }}</small>
+              ? item.beforeDiscount + " $"
+              : ""
+              }}</small>
           </p>
           <span>Quantity: {{ item.quantity }}</span>
           <div class="d-flex card-down-section flex-column gap-1" (click)="$event.stopPropagation()">
-            <div class="w-75">
-              <input class="w-100" type="number" name="" id="">
-            </div>
             <div class="d-flex gap-1">
-              <button (click)="deleteProdFromCart(item.productId)" type="button" class="btn btn-danger">delete this product</button>
-              <button type="button" class="btn btn-success">grow</button>
+              <button (click)="deleteProdFromCart(item.productId)" type="button" class="btn btn-danger">delete this
+                product</button>
             </div>
           </div>
         </div>
@@ -52,10 +37,8 @@
       <p class="text-success">
         All product price: {{ cart.total.price.current }}$
       </p>
-      <small class="text-danger"
-        >All product price before discount:
-        {{ cart.total.price.beforeDiscount }}$</small
-      >
+      <small class="text-danger">All product price before discount:
+        {{ cart.total.price.beforeDiscount }}$</small>
     </div>
     }
     <br />
